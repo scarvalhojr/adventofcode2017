@@ -1,4 +1,6 @@
 
+import Data.Maybe (fromMaybe)
+
 input :: String
 input = "4347 3350 196 162 233 4932 4419 3485 4509 4287 4433 4033 207 3682 2193 4223\n\
 \648 94 778 957 1634 2885 1964 2929 2754 89 972 112 80 2819 543 2820\n\
@@ -34,14 +36,21 @@ solve1 :: String -> Int
 solve1 = sum . map diff . parseSpreadsheet
   where diff row = maximum row - minimum row
 
+findWholeDivision :: [Int] -> Maybe Int
+findWholeDivision []     = Nothing
+findWholeDivision (x:xs) =
+  case findDiv x xs
+    of Nothing -> findWholeDivision xs
+       Just q  -> Just q
+  where findDiv x [] = Nothing
+        findDiv x (y:ys)
+          | rem x y == 0  = Just (quot x y)
+          | rem y x == 0  = Just (quot y x)
+          | otherwise     = findDiv x ys
+
 solve2 :: String -> Int
-solve2 = sum . map onlyDiv . parseSpreadsheet
-  where onlyDiv []     = 0
-        onlyDiv (x:xs) = (sum (map (addIfDiv x) xs)) + (onlyDiv xs)
-        addIfDiv x y
-          | rem x y == 0  = quot x y
-          | rem y x == 0  = quot y x
-          | otherwise     = 0
+solve2 = fromMaybe 0 . fmap sum . sequence . wholeDivisions
+  where wholeDivisions = map findWholeDivision . parseSpreadsheet
 
 main :: IO ()
 main = do putStrLn $ "Part 1: " ++ show (solve1 input)
