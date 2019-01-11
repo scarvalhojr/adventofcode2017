@@ -1,0 +1,9 @@
+[package]
+name = "day06"
+description = "Advent of Code - Day 06"
+version = "0.1.0"
+authors = ["Sergio de Carvalho <scarvalhojr@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+clap = "~2.32"
