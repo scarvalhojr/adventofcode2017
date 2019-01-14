@@ -1,0 +1,10 @@
+[package]
+name = "day14"
+description = "Advent of Code - Day 14"
+version = "0.1.0"
+authors = ["Sergio de Carvalho <scarvalhojr@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+clap = "~2.32"
+hex = "0.3.2"
